@@ -1,6 +1,9 @@
 // 在 Cloud code 里初始化 Express 框架
+var AV = require('leanengine');
 var express = require('express');
 var avosExpressCookieSession = require('avos-express-cookie-session');
+var index = require('cloud/routes/index');
+var admin = require('cloud/routes/admin');
 
 var app = express();
 
@@ -17,6 +20,10 @@ app.use(avosExpressCookieSession({ cookie: { maxAge: 3600000 }, fetchUser: true}
 app.get('/hello', function(req, res) {
   res.render('hello', { message: 'Congrats, you just set up your app!' });
 });
+
+index(app);
+
+AV.Cloud.useMasterKey();
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
